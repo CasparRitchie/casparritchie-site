@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './styles.css';
 
 const serviceCards = [
@@ -47,46 +47,106 @@ const processSteps = [
   },
 ];
 
+const selectedWork = [
+  {
+    title: 'Childcare / NPS Me',
+    subtitle: 'Survey programme rollout and adoption support',
+    text: 'Helped a childcare company shape and launch a survey programme in Intercom, supported the rollout and adoption, and helped embed customer feedback as a more regular way of working. The Customer Lead now uses the setup regularly as part of that rhythm.',
+    bullets: ['Intercom survey setup', 'Rollout support and coaching', 'Embedding feedback into day-to-day work'],
+    link: 'https://www.npsme.com',
+    linkLabel: 'View NPS Me',
+  },
+  {
+    title: 'Operational tools and reporting',
+    subtitle: 'Practical builds to reduce friction',
+    text: 'A recurring part of my work is turning messy workflows, unclear reporting, or repetitive processes into clearer tools, better visibility, and more manageable ways of working.',
+    bullets: ['Workflow simplification', 'Reporting and dashboards', 'Pragmatic delivery'],
+  },
+  {
+    title: 'Product and prototype thinking',
+    subtitle: 'From ideas to working things',
+    text: 'Alongside consulting work, I build and test products, prototypes, and experiments that connect customer understanding, structured thinking, and practical technology.',
+    bullets: ['Product exploration', 'Rapid prototyping', 'Turning concepts into live projects'],
+  },
+];
+
+const ventures = [
+  {
+    title: 'NPS Me',
+    text: 'My specialist venture focused on NPS, customer feedback, reporting, and close-the-loop ways of working for startups and SMEs.',
+    bullets: ['CX and NPS focus', 'Practical implementation', 'Consultancy-backed setup'],
+    link: 'https://www.npsme.com',
+    linkLabel: 'Visit NPS Me',
+  },
+  {
+    title: 'CXMS',
+    text: 'A space for experiments, tools, and ideas combining customer experience, data, creativity, Python, JavaScript, and lightweight product development.',
+    bullets: ['Creative experimentation', 'Python and JavaScript builds', 'Useful tools and prototypes'],
+    link: 'https://www.cxms.fr',
+    linkLabel: 'Visit CXMS',
+  },
+  {
+    title: 'Renovation Cost Guide',
+    text: 'A developing product exploring how structured content, cost guidance, and AI-assisted planning tools can help homeowners make better renovation decisions.',
+    bullets: ['Structured renovation guidance', 'Product and SEO development', 'AI garden creator direction'],
+    link: 'https://www.renovationcostguide.co.uk',
+    linkLabel: 'Visit Renovation Cost Guide',
+  },
+];
+
 export default function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const closeMenu = () => setMenuOpen(false);
+    window.addEventListener('resize', closeMenu);
+    return () => window.removeEventListener('resize', closeMenu);
+  }, []);
+
   return (
     <div className="site-shell">
+      <a className="skip-link" href="#main">Skip to content</a>
       <header className="site-header">
         <div className="container nav-row">
-          <div className="brand">Caspar Ritchie</div>
-          <nav className="nav-links">
-            <a href="#about">About</a>
-            <a href="#services">How I help</a>
-            <a href="#process">How it works</a>
-            <a href="#ventures">Other ventures</a>
-            <a href="#contact">Contact</a>
+          <a className="brand" href="#top" aria-label="Caspar Ritchie, home">
+            <span>Caspar<span className="brand-slash">/</span></span>
+            <span>Ritchie</span>
+          </a>
+          <button className="menu-button" type="button" aria-expanded={menuOpen} aria-controls="site-navigation" onClick={() => setMenuOpen((open) => !open)}>
+            <span className="sr-only">Open menu</span><span aria-hidden="true" /><span aria-hidden="true" />
+          </button>
+          <nav className={`nav-links${menuOpen ? ' open' : ''}`} id="site-navigation" aria-label="Main navigation">
+            <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
+            <a href="#services" onClick={() => setMenuOpen(false)}>How I help</a>
+            <a href="#process" onClick={() => setMenuOpen(false)}>Approach</a>
+            <a href="#work" onClick={() => setMenuOpen(false)}>Work</a>
+            <a href="#ventures" onClick={() => setMenuOpen(false)}>Ventures</a>
           </nav>
+          <a className="btn btn-primary header-cta" href="#contact">Let’s talk <span aria-hidden="true">→</span></a>
         </div>
       </header>
 
-      <main>
-        <section className="hero">
-          <div className="hero-media" aria-hidden="true">
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              poster="https://cdn.prod.website-files.com/653e50f60ac329e82ba89473/654208e81dbc146eeca1928e_frontpage-hero-poster-00001.jpg"
-            >
-              <source src="https://cdn.prod.website-files.com/667ac1da6028f1c87ce44a89/667ac1da6028f1c87ce44b86_frontpage-hero-transcode.mp4" type="video/mp4" />
-            </video>
-            <div className="hero-overlay" />
-          </div>
-
+      <main id="main">
+        <section className="hero" id="top">
           <div className="container hero-content">
-            <div className="eyebrow">Consultant • Builder • Problem solver</div>
-            <h1>A personal site about the work I do and the things I build.</h1>
-            <p className="hero-copy">
-              I help businesses improve the way they work through a mix of operational improvement, reporting, customer understanding, and practical delivery. This site is about me and my broader work. My more specialist NPS and CX offer lives at NPS Me.
-            </p>
-            <div className="hero-actions">
-              <a className="btn btn-primary" href="#contact">Get in touch</a>
-              <a className="btn btn-secondary" href="#ventures">View ventures</a>
+            <div className="hero-copy-block">
+              <div className="eyebrow">Consultant · Builder · Problem solver</div>
+              <h1>Understand the problem.<br /><em>Make work better.</em></h1>
+              <p className="hero-copy">
+                I help businesses improve the way they work through operational improvement,
+                reporting, customer understanding and practical delivery.
+              </p>
+              <div className="hero-actions">
+                <a className="btn btn-primary" href="#contact">Get in touch <span aria-hidden="true">→</span></a>
+                <a className="text-link" href="#work">View selected work <span aria-hidden="true">↓</span></a>
+              </div>
+            </div>
+            <div className="hero-system" aria-label="Caspar's way of working">
+              <span className="hero-system-kicker">Practical change, built around people.</span>
+              <div className="system-card system-card-a"><small>01 / Find the friction</small><strong>Understand</strong><span>People · process · evidence</span></div>
+              <div className="system-path" aria-hidden="true"><i /><i /><i /></div>
+              <div className="system-card system-card-b"><small>02 / Make it useful</small><strong>Build &amp; improve</strong><span>Clear · practical · measurable</span></div>
+              <span className="hero-system-note">Better decisions.<br />Smoother work.<br />Useful outcomes.</span>
             </div>
           </div>
         </section>
@@ -99,10 +159,13 @@ export default function App() {
             <div>
               <h2>A practical approach to making businesses work better</h2>
               <p className="lead">
-                Hi, I’m Caspar. My background spans customer experience, continuous improvement, analytics, reporting, delivery, and digital product thinking.
+                Hi, I’m Caspar. My background spans customer experience, continuous improvement,
+                analytics, reporting, delivery, and digital product thinking.
               </p>
               <p>
-                I like helping businesses reduce friction, focus on what adds value, and turn insight into practical action. Sometimes that means simplifying an internal process. Sometimes it means building better reporting. Sometimes it means creating something new altogether.
+                I like helping businesses reduce friction, focus on what adds value, and turn insight
+                into practical action. Sometimes that means simplifying an internal process. Sometimes
+                it means building better reporting. Sometimes it means creating something new altogether.
               </p>
             </div>
           </div>
@@ -137,10 +200,12 @@ export default function App() {
                 <div className="section-kicker">How it works</div>
                 <h2>Simple, practical, and focused on value.</h2>
                 <p className="lead">
-                  I work in a practical, collaborative way: understand what matters, prioritise well, and build changes that are genuinely useful.
+                  I work in a practical, collaborative way: understand what matters, prioritise well,
+                  and build changes that are genuinely useful.
                 </p>
                 <p>
-                  The process is usually straightforward: understand the current state, identify the biggest opportunities, build the right solution, then measure what changes.
+                  The process is usually straightforward: understand the current state, identify the
+                  biggest opportunities, build the right solution, then measure what changes.
                 </p>
               </div>
             </div>
@@ -162,15 +227,78 @@ export default function App() {
           </div>
         </section>
 
-        <section id="ventures" className="section section-dark callout">
-          <div className="container callout-inner">
-            <div className="section-kicker">Other ventures</div>
-            <h2>This site is personal. Some of my more specialist work lives elsewhere.</h2>
-            <p>
-              NPS Me is where I focus specifically on NPS, customer intelligence, and experience improvement. Other projects, like Renovation Cost Guide and CXMS, reflect different parts of what I build and explore.
-            </p>
-            <div className="hero-actions">
-              <a className="btn btn-primary" href="https://www.npsme.com" target="_blank" rel="noreferrer">Visit NPS Me</a>
+        <section id="work" className="section section-light">
+          <div className="container">
+            <div className="section-heading">
+              <div className="section-kicker">Selected work</div>
+              <h2>Examples that show how I think and what I build</h2>
+              <p className="lead">
+                A mix of consulting, implementation, and product thinking across customer experience,
+                reporting, and operational improvement.
+              </p>
+            </div>
+
+            <div className="services-grid">
+              {selectedWork.map((item) => (
+                <article className="service-card" key={item.title}>
+                  <div className="process-step">{item.subtitle}</div>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                  <ul>
+                    {item.bullets.map((bullet) => (
+                      <li key={bullet}>{bullet}</li>
+                    ))}
+                  </ul>
+                  {item.link && (
+                    <div className="hero-actions" style={{ marginTop: '1rem' }}>
+                      <a
+                        className="btn btn-secondary"
+                        href={item.link}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {item.linkLabel}
+                      </a>
+                    </div>
+                  )}
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="ventures" className="section section-dark">
+          <div className="container">
+            <div className="section-heading">
+              <div className="section-kicker">Other ventures</div>
+              <h2>This site is personal. Some of my more specialist work lives elsewhere.</h2>
+              <p className="lead">
+                These projects reflect different parts of what I build, explore, and develop over time.
+              </p>
+            </div>
+
+            <div className="services-grid">
+              {ventures.map((venture) => (
+                <article className="service-card" key={venture.title}>
+                  <h3>{venture.title}</h3>
+                  <p>{venture.text}</p>
+                  <ul>
+                    {venture.bullets.map((bullet) => (
+                      <li key={bullet}>{bullet}</li>
+                    ))}
+                  </ul>
+                  <div className="hero-actions" style={{ marginTop: '1rem' }}>
+                    <a
+                      className="btn btn-primary"
+                      href={venture.link}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {venture.linkLabel}
+                    </a>
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
         </section>
@@ -179,7 +307,8 @@ export default function App() {
           <div className="container callout-inner">
             <h2>Friendly, experienced, and easy to work with.</h2>
             <p>
-              I’m not a big company. I work closely with clients to make businesses run smoother, improve customer experience, and help leaders make better decisions with clearer insight.
+              I’m not a big company. I work closely with clients to make businesses run smoother,
+              improve customer experience, and help leaders make better decisions with clearer insight.
             </p>
           </div>
         </section>
@@ -200,6 +329,11 @@ export default function App() {
           </div>
         </section>
       </main>
+      <footer className="site-footer">
+        <a className="brand" href="#top" aria-label="Caspar Ritchie, home"><span>Caspar<span className="brand-slash">/</span></span><span>Ritchie</span></a>
+        <p>Customer experience, operational improvement<br />and useful software.</p>
+        <div><a href="mailto:casparritchie@gmail.com">casparritchie@gmail.com</a><span>Independent consultant · Bordeaux, France</span></div>
+      </footer>
     </div>
   );
 }
